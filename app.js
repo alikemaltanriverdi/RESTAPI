@@ -44,14 +44,10 @@ app.route("/articles")
         });
     })
     .post(function (req, res) {
-        console.log(req.body.title);
-        console.log(req.body.content);
-
         const newArticle = new Article({
             title: req.body.title,
             content: req.body.content
         });
-
         newArticle.save(function (err) {
             if (err) {
                 res.send(err);
@@ -72,7 +68,7 @@ app.route("/articles")
 app.route("/articles/:articleTitle")
     .get(function (req, res) {
         const requestedPostId = req.params.articleTitle;
-        Article.findOne({ title: requestedPostId}, function (err, foundArticle) {
+        Article.findOne({ title: requestedPostId }, function (err, foundArticle) {
             if (foundArticle) {
                 res.send(foundArticle);
             } else {
@@ -81,51 +77,38 @@ app.route("/articles/:articleTitle")
         });
     })
     .put(function (req, res) {
-        Article.update(
-            {title: req.params.articleTitle},
-            {title: req.body.title, content: req.body.content},
-            {overwrite: true},
-            function(err,results){
-                if(!err){
+        Article.updateOne(
+            { title: req.params.articleTitle },
+            { title: req.body.title, content: req.body.content },
+            { overwrite: true },
+            function (err, results) {
+                if (!err) {
                     res.send("succesfully updated");
                 }
             }
         );
     })
-    .patch(function (req,res) { 
-        Article.update({
+    .patch(function (req, res) {
+        Article.updateOne({
             title: req.params.articleTitle
         },
-        {$set: req.body},
-        function(err){
-            if(!err){
-                res.send("Succesfully updated");
+            { $set: req.body },
+            function (err) {
+                if (!err) {
+                    res.send("Succesfully updated");
+                }
+            }
+        );
+    })
+    .delete(function (req, res) {
+        Article.deleteOne({ title: req.params.articleTitle }, function (err) {
+            if (!err) {
+                res.send("successfully deleted");
             }
         }
         );
-     })
-     .delete(function(req,res){
-         Article.deleteOne({title: req.params.articleTitle},function(err){
-             if(!err){
-                 res.send("successfully deleted");
-             }
-            }
-        );
-     });
+    });
 
-    // .delete(function (req, res) {
-    //     Article.deleteMany(function (err) {
-    //         if (err) res.send(err);
-    //         else {
-    //             res.send("Deleted all of the articles");
-    //         }
-    //     });
-    // });
-
-// // app.get("/articles", );
-// app.post("/articles", );
-
-// app.delete("/articles",);
 
 let port = process.env.PORT;
 if (port == null || port == "") {
