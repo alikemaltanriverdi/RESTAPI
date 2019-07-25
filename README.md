@@ -48,6 +48,8 @@ API Methods Usage:
     
 NOTE: Application uses port 3000 unless specified otherwise by the environment variables
 
+Documented in Postman: https://documenter.getpostman.com/view/6720688/SVSRJ6rU?version=latest
+
 Applications used for this product
 - API Testing: Postman
 - IDE: Visual Studio Code
