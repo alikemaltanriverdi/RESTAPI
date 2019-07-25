@@ -72,7 +72,7 @@ app.route("/articles")
 app.route("/articles/:articleTitle")
     .get(function (req, res) {
         const requestedPostId = req.params.articleTitle;
-        Article.findOne(requestedPostId, function (err, foundArticle) {
+        Article.findOne({ title: requestedPostId}, function (err, foundArticle) {
             if (foundArticle) {
                 res.send(foundArticle);
             } else {
